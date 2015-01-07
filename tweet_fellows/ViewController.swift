@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Accounts
+import Social
 
 class ViewController: UIViewController, UITableViewDataSource {
    
@@ -15,14 +17,47 @@ class ViewController: UIViewController, UITableViewDataSource {
 
    override func viewDidLoad() {
       super.viewDidLoad()
-      tableView.dataSource = self
+      self.tableView.dataSource = self
+
+      let accountStore = ACAccountStore()
+      let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
       
-      // parse json file and make Tweets
-      if let jsonArray = getJsonArray("tweet.json") {
-         parseTweetsFromJsonArray(jsonArray)
+      accountStore.requestAccessToAccountsWithType(accountType, options: nil) { (granted, error) -> Void in
+         if granted {
+            let accounts = accountStore.accountsWithAccountType(accountType)
+            if !accounts.isEmpty {
+               let twitterAccount = accounts.first as ACAccount
+               let requestURL = NSURL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")
+               let twitterRequest = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: SLRequestMethod.GET, URL: requestURL, parameters: nil)
+               twitterRequest.account = twitterAccount
+               twitterRequest.performRequestWithHandler(){ (data, response, error) -> Void in
+                  switch response.statusCode {
+                  case 200...299:
+                     println("killin it, statuscode: \(response.statusCode)")
+                     
+                     if let jsonArray = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? [AnyObject] {
+                        for object in jsonArray {
+                           if let jsonDictionary = object as? [String: AnyObject] {
+                              let tweet = Tweet(jsonDictionary)
+                              self.tweets.append(tweet)
+                              NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                                 self.tableView.reloadData()
+                              })
+                           } else {
+                              println("failed to fill jsonArray")
+                           }
+                           
+                        }
+                     }
+                  case 300...599:
+                     println("this is bad! \(response.statusCode)")
+                  default:
+                     println("fail")
+                  }
+               }
+            }
+         }
       }
-      
-      
    }
    
    override func didReceiveMemoryWarning() {
@@ -41,33 +76,10 @@ class ViewController: UIViewController, UITableViewDataSource {
       let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL") as TweetCell
       cell.usernameLabel.text = tweets[indexPath.row].username
       cell.tweetTextLabel.text = tweets[indexPath.row].text
+      cell.userPhotoId?.image = tweets[indexPath.row].userPhotoId
       return cell
    }
 
 
-   func getJsonArray(file: String) -> [AnyObject]? {
-      let fileSplit = file.componentsSeparatedByString(".")
-      let filename = fileSplit[0]
-      let filetype = fileSplit[1]
-      var result : [AnyObject]?
-      if let jsonPath = NSBundle.mainBundle().pathForResource(filename, ofType: filetype) {
-         if let jsonData = NSData(contentsOfFile: jsonPath) {
-            var error: NSError?
-            if let jsonArray = NSJSONSerialization.JSONObjectWithData(jsonData, options: nil, error: &error) as? [AnyObject] {
-               result =  jsonArray
-            }
-         }
-      }
-      return result
-   }
-   
-   func parseTweetsFromJsonArray(jsonArray:[AnyObject]){
-      for object in jsonArray {
-         if let jsonDictionary = object as? [String: AnyObject] {
-            let tweet = Tweet(jsonDictionary)
-            tweets.append(tweet)
-         }
-      }
-   }
    
 }

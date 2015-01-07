@@ -76,6 +76,7 @@
                                         <color key="backgroundColor" red="0.1860724178" green="0.50245253339999996" blue="0.56478851009999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="tweetTextLabel" destination="8cX-Rj-o4n" id="C8w-Up-7sn"/>
+                                            <outlet property="userPhotoId" destination="qpZ-uf-d0V" id="TyJ-g0-84x"/>
                                             <outlet property="usernameLabel" destination="hZe-Xd-OOa" id="ogI-XT-YPI"/>
                                         </connections>
                                     </tableViewCell>
