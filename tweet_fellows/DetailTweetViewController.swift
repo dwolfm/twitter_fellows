@@ -57,6 +57,8 @@ class DetailTweetViewController: UIViewController {
     }
     
    @IBAction func userPhotoButton(sender: AnyObject) {
+    let userTimelineVC = self.storyboard?.instantiateViewControllerWithIdentifier("USER_TIMELINE") as UserTimelineViewController
+    self.navigationController?.pushViewController(userTimelineVC, animated: true)
    }
 
     /*

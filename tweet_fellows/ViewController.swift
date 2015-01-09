@@ -22,12 +22,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       self.title = "tweet fellows"
       
       // setup tableView
-      self.tableView.delegate = self
-      self.tableView.dataSource = self
-      self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
-      self.tableView.estimatedRowHeight = 100
-      self.tableView.rowHeight = UITableViewAutomaticDimension
-      
+    self.tableView.delegate = self
+    self.tableView.dataSource = self
+    self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
+    self.tableView.estimatedRowHeight = 100
+    self.tableView.rowHeight = UITableViewAutomaticDimension
+    
       self.networkController.fetchHomeTimeLine { (tweets, errorString) -> () in
          if errorString == nil {
             self.tweets = tweets!
