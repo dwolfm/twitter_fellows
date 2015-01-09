@@ -10,55 +10,36 @@ import UIKit
 import Accounts
 import Social
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
    
-   var tweets : [Tweet] = []
+   var tweets: [Tweet] = []
+   let networkController = NetworkController()
    @IBOutlet weak var tableView: UITableView!
+   var time_to_set: String = ""
 
    override func viewDidLoad() {
       super.viewDidLoad()
-      self.tableView.dataSource = self
-
-      let accountStore = ACAccountStore()
-      let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
+      self.title = "tweet fellows"
       
-      accountStore.requestAccessToAccountsWithType(accountType, options: nil) { (granted, error) -> Void in
-         if granted {
-            let accounts = accountStore.accountsWithAccountType(accountType)
-            if !accounts.isEmpty {
-               let twitterAccount = accounts.first as ACAccount
-               let requestURL = NSURL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")
-               let twitterRequest = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: SLRequestMethod.GET, URL: requestURL, parameters: nil)
-               twitterRequest.account = twitterAccount
-               twitterRequest.performRequestWithHandler(){ (data, response, error) -> Void in
-                  switch response.statusCode {
-                  case 200...299:
-                     println("killin it, statuscode: \(response.statusCode)")
-                     
-                     if let jsonArray = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? [AnyObject] {
-                        for object in jsonArray {
-                           if let jsonDictionary = object as? [String: AnyObject] {
-                              let tweet = Tweet(jsonDictionary)
-                              self.tweets.append(tweet)
-                              NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                 self.tableView.reloadData()
-                              })
-                           } else {
-                              println("failed to fill jsonArray")
-                           }
-                           
-                        }
-                     }
-                  case 300...599:
-                     println("this is bad! \(response.statusCode)")
-                  default:
-                     println("fail")
-                  }
-               }
-            }
+      // setup tableView
+      self.tableView.delegate = self
+      self.tableView.dataSource = self
+      self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
+      self.tableView.estimatedRowHeight = 100
+      self.tableView.rowHeight = UITableViewAutomaticDimension
+      
+      self.networkController.fetchHomeTimeLine { (tweets, errorString) -> () in
+         if errorString == nil {
+            self.tweets = tweets!
+            self.tableView.reloadData()
+         } else {
+            let alert = UIAlertView()
+            alert.message = errorString!
+            alert.show()
+            
          }
       }
-   }
+  } // view did load
    
    override func didReceiveMemoryWarning() {
       super.didReceiveMemoryWarning()
@@ -76,9 +57,25 @@ class ViewController: UIViewController, UITableViewDataSource {
       let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL") as TweetCell
       cell.usernameLabel.text = tweets[indexPath.row].username
       cell.tweetTextLabel.text = tweets[indexPath.row].text
+      networkController.fetchPhotoID(tweets[indexPath.row], photoURL: tweets[indexPath.row].userPhotoUrl!)
       cell.userPhotoId?.image = tweets[indexPath.row].userPhotoId
+      println(tweets[indexPath.row].tweetID)
+      
       return cell
    }
+   
+   
+   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+      let detailTweetVC = self.storyboard?.instantiateViewControllerWithIdentifier("DETAIL_VIEW") as DetailTweetViewController
+      let tweetSelected = self.tweets[indexPath.row]
+      detailTweetVC.tweet = tweetSelected
+      detailTweetVC.networkController = self.networkController
+      navigationController?.pushViewController(detailTweetVC, animated: true)
+      
+   }
+   
+   
+   
 
 
    

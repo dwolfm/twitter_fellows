@@ -10,20 +10,28 @@ import Foundation
 import UIKit
 
 class Tweet{
-   var text:String
-   var username:String
+   var username: String
+   var screenName: String?
+   var tweetID: String 
+   var createdAt: String?
+   var favorites: Int?
+   var text: String
+   var userPhotoUrl: NSURL?
    var userPhotoId: UIImage?
+   var userBackgroundPhotoUrl: NSURL?
+   var userBackgroundPhoto: UIImage?
+
    
    init( _ jsonDictionary: [String: AnyObject] ){
       self.text = jsonDictionary["text"] as String
+      self.tweetID = jsonDictionary["id_str"] as String
       let dict = jsonDictionary["user"] as [String: AnyObject]
       self.username = dict["name"] as String
       if let userPhotoUrlString = dict["profile_image_url"] as? String {
-         let userPhotoUrl = NSURL(string: userPhotoUrlString)
-         let userPhotoData = NSData(contentsOfURL: userPhotoUrl!)
-         self.userPhotoId = UIImage(data: userPhotoData!)
+         if let url = NSURL(string: userPhotoUrlString) {
+            self.userPhotoUrl = url
+         }
       }
-
-      
    }
 }
+
