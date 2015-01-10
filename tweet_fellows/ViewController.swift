@@ -28,6 +28,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
     self.tableView.estimatedRowHeight = 100
     self.tableView.rowHeight = UITableViewAutomaticDimension
+    self.tableView.backgroundColor = UIColor.clearColor()
     
       self.networkController.fetchHomeTimeLine { (tweets, errorString) -> () in
          if errorString == nil {
@@ -72,8 +73,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       cell.userPhotoId?.layer.borderColor = UIColor.blackColor().CGColor
       cell.userPhotoId?.layer.borderWidth = 4.0
 //      cell.backgroundColor = self.colorTheme.randCellColors[indexPath.row % 5]
-      cell.backgroundColor = UIColor(netHex: 0xfabbff)
-
+//      cell.backgroundColor = UIColor(netHex: 0xfabbff)
+//    cell.backgroundColor = UIColor.clearColor()
+    
+    
       println(self.colorTheme.randCellColors[indexPath.row % 5])
       println(tweet.tweetID)
       return cell
@@ -106,6 +109,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     
                 }
             }
+            self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+
 
         }
     }

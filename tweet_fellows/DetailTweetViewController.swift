@@ -24,11 +24,8 @@ import UIKit
 class DetailTweetViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
    @IBOutlet weak var tableView: UITableView!
-   
    @IBOutlet weak var userPhotoButton: UIButton!
-   
    @IBOutlet weak var tweetTextLabel: UILabel!
-   
    @IBOutlet weak var bannerImage: UIImageView!
    
    var networkController : NetworkController!

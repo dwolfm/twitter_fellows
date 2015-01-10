@@ -20,20 +20,23 @@
                             <constraint firstAttribute="height" constant="75" id="zgM-gN-gvR"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zio-nf-uWN">
-                        <rect key="frame" x="91" y="35" width="221" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="text" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iit-9P-QeZ">
                         <rect key="frame" x="8" y="91" width="304" height="63"/>
                         <color key="backgroundColor" red="0.57056897095959602" green="0.57056897095959602" blue="0.57056897095959602" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="highlightedColor" red="0.83798926770000004" green="0.49029720510000002" blue="0.49793156319999998" alpha="1" colorSpace="calibratedRGB"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zio-nf-uWN">
+                        <rect key="frame" x="91" y="35" width="221" height="23"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <size key="shadowOffset" width="-1" height="2"/>
+                    </label>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="Zio-nf-uWN" firstAttribute="leading" secondItem="Q3m-78-9as" secondAttribute="trailing" constant="8" id="1I7-7I-HQ1"/>
                     <constraint firstItem="Q3m-78-9as" firstAttribute="leading" secondItem="YDo-y0-70Y" secondAttribute="leadingMargin" id="3nD-WS-TGY"/>
@@ -46,7 +49,7 @@
                     <constraint firstItem="iit-9P-QeZ" firstAttribute="bottom" secondItem="YDo-y0-70Y" secondAttribute="bottomMargin" id="xgk-Aa-OO5"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.78000000000000003" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="tweetTextLabel" destination="iit-9P-QeZ" id="VjE-jZ-4Ew"/>
                 <outlet property="userPhotoId" destination="Q3m-78-9as" id="lbA-OT-xlq"/>
