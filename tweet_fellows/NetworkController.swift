@@ -148,11 +148,46 @@ class NetworkController {
       }
    }
    
-   func fetchPhotoID(tweet: Tweet, photoURL: NSURL) {
-      if let photoData = NSData(contentsOfURL: photoURL){
-         tweet.userPhotoId = UIImage(data: photoData)
+   func fetchUserTimeline(username: String, completionHandler: ([AnyObject]?, String?) -> () ){
+      let requestURL = NSURL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json?username=\(username)")
+      let twitterRequest = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: SLRequestMethod.GET, URL: requestURL, parameters: nil)
+      twitterRequest.account = self.twitterAccount
+      twitterRequest.performRequestWithHandler { (data, response, error) -> Void in
+         if error == nil {
+            switch response.statusCode {
+            case 200...299:
+               if let jsonArray = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? [AnyObject] {
+                  var tweets: [Tweet] = []
+                  for object in jsonArray {
+                     if let jsonDictionary = object as? [String: AnyObject] {
+                        let tweet = Tweet(jsonDictionary)
+                        tweets.append(tweet)
+                     }
+                  }// end for
+                  NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                     completionHandler(tweets, nil)
+                  })
+               }
+               
+            case 300...599:
+               NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                  completionHandler(nil, "Error of type \(error)")
+               })
+               
+            default:
+               println("unexpected error")
+            }// switch
+            
+         } // error
       }
    }
    
    
+   
+   func fetchImageFromURL(inout image: UIImage?, photoURL: NSURL){
+      if let photoData = NSData(contentsOfURL: photoURL) {
+         image = UIImage(data: photoData)
+      }
+   }
+
 }

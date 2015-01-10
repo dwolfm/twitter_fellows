@@ -13,6 +13,7 @@ import Social
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
    
    var tweets: [Tweet] = []
+   var colorTheme:ColorTheme = ColorTheme()
    let networkController = NetworkController()
    @IBOutlet weak var tableView: UITableView!
    var time_to_set: String = ""
@@ -20,7 +21,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
    override func viewDidLoad() {
       super.viewDidLoad()
       self.title = "tweet fellows"
-      
+      self.navigationController?.navigationBar.barStyle = UIBarStyle(rawValue: 1)!
       // setup tableView
     self.tableView.delegate = self
     self.tableView.dataSource = self
@@ -54,13 +55,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
    }
    
    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      let tweet = tweets[indexPath.row]
       let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL") as TweetCell
-      cell.usernameLabel.text = tweets[indexPath.row].username
-      cell.tweetTextLabel.text = tweets[indexPath.row].text
-      networkController.fetchPhotoID(tweets[indexPath.row], photoURL: tweets[indexPath.row].userPhotoUrl!)
-      cell.userPhotoId?.image = tweets[indexPath.row].userPhotoId
-      println(tweets[indexPath.row].tweetID)
+      cell.usernameLabel.text = tweet.username
+      cell.tweetTextLabel.text = tweet.text
+      cell.tweetTextLabel.layer.cornerRadius = 5
+      cell.tweetTextLabel.layer.masksToBounds = true
       
+//      networkController.fetchPhotoID(tweets[indexPath.row].userPhotoId! , photoURL: tweets[indexPath.row].userPhotoUrl!)
+      networkController.fetchImageFromURL(&tweet.userPhotoId, photoURL: tweet.userPhotoUrl!)
+      cell.userPhotoId?.image = tweet.userPhotoId
+      cell.userPhotoId?.layer.cornerRadius = 35.0
+      cell.userPhotoId?.layer.masksToBounds = true
+      
+      //layer.borderColor = [UIColor lightGrayColor].CGColor;
+      cell.userPhotoId?.layer.borderColor = UIColor.blackColor().CGColor
+      cell.userPhotoId?.layer.borderWidth = 4.0
+//      cell.backgroundColor = self.colorTheme.randCellColors[indexPath.row % 5]
+      cell.backgroundColor = UIColor(netHex: 0xfabbff)
+
+      println(self.colorTheme.randCellColors[indexPath.row % 5])
+      println(tweet.tweetID)
       return cell
    }
    

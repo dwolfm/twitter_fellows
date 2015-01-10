@@ -32,6 +32,12 @@ class Tweet{
             self.userPhotoUrl = url
          }
       }
+      
+      if let userBackgroundPhotoUrlString = dict["profile_background_image_url"] as? String {
+         if let url = NSURL(string: userBackgroundPhotoUrlString){
+            self.userBackgroundPhotoUrl = url
+         }
+      }
    }
 }
 

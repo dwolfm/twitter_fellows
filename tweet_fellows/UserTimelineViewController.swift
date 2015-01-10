@@ -9,11 +9,16 @@
 import UIKit
 
 class UserTimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var headerTest: UILabel!
+   // outlets
+   @IBOutlet weak var tableView: UITableView!
+   @IBOutlet weak var headerTest: UILabel!
+   
+   let networkController : NetworkController?
+   let tweets: [Tweet] = []
+   
+   
 
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
@@ -25,7 +30,7 @@ class UserTimelineViewController: UIViewController, UITableViewDataSource, UITab
         
         // Do any additional setup after loading the view.
     }
-
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
