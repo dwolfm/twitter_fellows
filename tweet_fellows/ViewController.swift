@@ -89,7 +89,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       
    }
    
+
+
+    @IBAction func handlepinch(recognizer: UIPinchGestureRecognizer){
+        if recognizer.state == UIGestureRecognizerState.Ended {
+            self.networkController.fetchHomeTimeLine { (tweets, errorString) -> () in
+                if errorString == nil {
+                    self.tweets = tweets!
+                    self.tableView.reloadData()
+                    println("pinch has reloded data")
+                } else {
+                    let alert = UIAlertView()
+                    alert.message = errorString!
+                    alert.show()
+                    println("pinch failed to reload data")
+                    
+                }
+            }
+
+        }
+    }
    
+
    
 
 

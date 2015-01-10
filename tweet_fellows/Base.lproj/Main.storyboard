@@ -24,12 +24,16 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.83798926770000004" green="0.49029720510000002" blue="0.49793156319999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="ACZ-74-bhl" secondAttribute="trailing" constant="-16" id="0C4-hv-kkM"/>
                             <constraint firstItem="ACZ-74-bhl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="qCC-c8-Ehb"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ACZ-74-bhl" secondAttribute="bottom" id="rzK-Yi-uc1"/>
                             <constraint firstItem="ACZ-74-bhl" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="yMf-xv-aQK"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="DKQ-gx-cKn" appends="YES" id="lCY-LW-HVf"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="zJz-8r-nhD"/>
                     <connections>
@@ -37,6 +41,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="DKQ-gx-cKn">
+                    <connections>
+                        <action selector="handlepinch:" destination="BYZ-38-t0r" id="Z3j-CP-DeN"/>
+                    </connections>
+                </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1053" y="339"/>
         </scene>
