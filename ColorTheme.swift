@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+
+/// i got this UICOLOR Converter from stack overflow by Sulthan
+//http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios
 extension UIColor {
    convenience init(red: Int, green: Int, blue: Int) {
       assert(red >= 0 && red <= 255, "Invalid red component")
@@ -33,16 +36,11 @@ class ColorTheme {
       let pink = UIColor(red: 255.0/255.0, green: 158.0/255.0, blue: 182.0/255.0, alpha: 255.0/255.0)
       let yella = UIColor(red: 219.0/255.0, green: 253.0/255.0, blue: 144.0/255.0, alpha: 255.0/255.0)
       let buu = UIColor(red: 162.0/255.0, green: 221.0/255.0, blue: 255.0/255.0, alpha: 255.0/255.0)
-      
-      self.randCellColors.append(UIColor(netHex: 0xff0000))
+    
       self.randCellColors.append(geen)
       self.randCellColors.append(pink)
       self.randCellColors.append(yella)
       self.randCellColors.append(buu)
 
-      
-      
-   
-      
    }
 }

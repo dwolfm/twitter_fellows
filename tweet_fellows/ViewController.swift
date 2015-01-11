@@ -20,8 +20,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
    override func viewDidLoad() {
       super.viewDidLoad()
-      self.title = "tweet fellows"
+//      self.title = "tweet fellows"
+    let twi_image = UIImage(named: "twitFelos")
+    let twi_view = UIImageView(image: twi_image)
+        self.navigationItem.titleView = twi_view
+
       self.navigationController?.navigationBar.barStyle = UIBarStyle(rawValue: 1)!
+    let writeTweetImage = UIImage(named: "writeTweet")
+    let writeTweetItem = UIBarButtonItem(image: writeTweetImage!, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("writeTweet:"))
+    self.navigationItem.rightBarButtonItem = writeTweetItem
+    
+    
+    
       // setup tableView
     self.tableView.delegate = self
     self.tableView.dataSource = self
@@ -62,23 +72,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       cell.tweetTextLabel.text = tweet.text
       cell.tweetTextLabel.layer.cornerRadius = 5
       cell.tweetTextLabel.layer.masksToBounds = true
-      
-//      networkController.fetchPhotoID(tweets[indexPath.row].userPhotoId! , photoURL: tweets[indexPath.row].userPhotoUrl!)
+    
+    
       networkController.fetchImageFromURL(&tweet.userPhotoId, photoURL: tweet.userPhotoUrl!)
       cell.userPhotoId?.image = tweet.userPhotoId
       cell.userPhotoId?.layer.cornerRadius = 35.0
       cell.userPhotoId?.layer.masksToBounds = true
-      
-      //layer.borderColor = [UIColor lightGrayColor].CGColor;
       cell.userPhotoId?.layer.borderColor = UIColor.blackColor().CGColor
       cell.userPhotoId?.layer.borderWidth = 4.0
-//      cell.backgroundColor = self.colorTheme.randCellColors[indexPath.row % 5]
-//      cell.backgroundColor = UIColor(netHex: 0xfabbff)
-//    cell.backgroundColor = UIColor.clearColor()
-    
-    
-      println(self.colorTheme.randCellColors[indexPath.row % 5])
-      println(tweet.tweetID)
+
+
       return cell
    }
    
@@ -94,6 +97,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
    
 
 
+    
     @IBAction func handlepinch(recognizer: UIPinchGestureRecognizer){
         if recognizer.state == UIGestureRecognizerState.Ended {
             self.networkController.fetchHomeTimeLine { (tweets, errorString) -> () in
@@ -116,7 +120,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
    
 
-   
+    @IBAction func writeTweet(UIBarButtonItem){
+        println("HEHEHEHE")
+        let writeTweetVC = self.storyboard?.instantiateViewControllerWithIdentifier("POST_TWEET") as postTweetViewController
+        writeTweetVC.networkController = self.networkController
+
+        self.navigationController?.pushViewController(writeTweetVC, animated: true)
+    }
+    
+    
 
 
    

@@ -39,3 +39,13 @@ changeString(&testString)
 println("afterFunc: \(testString)")
 
 
+let string = "123 Main St. / (555) 555-5555"
+let types: NSTextCheckingType = .Address | .PhoneNumber
+let scrnme: NSTextCheckingType = NSTextCheckingType.RegularExpression
+var error: NSError?
+let detector = NSDataDetector(types: types.rawValue, error: &error)
+
+detector?.enumerateMatchesInString(string, options: nil, range: NSMakeRange(0, (string as NSString).length)) { (result, flags, _) in
+    println(result)
+}
+        

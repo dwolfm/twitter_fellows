@@ -10,32 +10,16 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Screen Shot 2015-01-07 at 3.08.18 PM.png" translatesAutoresizingMaskIntoConstraints="NO" id="849-BP-u3a">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZFN-Zh-ks3">
+                    <rect key="frame" x="-16" y="0.0" width="512" height="480"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="TWEET" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lV4-G0-cVm">
-                    <rect key="frame" x="135" y="45" width="210" height="99"/>
-                    <fontDescription key="fontDescription" name="IowanOldStyle-Bold" family="Iowan Old Style" pointSize="55"/>
-                    <color key="textColor" red="0.90216876830000003" green="1" blue="0.98941502830000005" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="FELLOWS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpx-Gf-Ly1">
-                    <rect key="frame" x="102" y="63" width="312" height="196"/>
-                    <fontDescription key="fontDescription" name="Marion-Bold" family="Marion" pointSize="55"/>
-                    <color key="textColor" red="0.90216876830000003" green="1" blue="0.98941502830000005" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="lV4-G0-cVm" secondAttribute="centerX" id="3It-Zm-MtH"/>
-                <constraint firstItem="lV4-G0-cVm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="45" id="9oa-mS-cQ1"/>
-                <constraint firstItem="849-BP-u3a" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="BEU-DC-QQp"/>
-                <constraint firstAttribute="bottom" secondItem="849-BP-u3a" secondAttribute="bottom" id="Ufc-RG-QxI"/>
-                <constraint firstAttribute="trailing" secondItem="849-BP-u3a" secondAttribute="trailing" id="amE-gh-2we"/>
-                <constraint firstItem="hpx-Gf-Ly1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="63" id="cuk-eZ-t1Z"/>
-                <constraint firstAttribute="centerX" secondItem="hpx-Gf-Ly1" secondAttribute="centerX" id="k7w-wK-Zkr"/>
-                <constraint firstItem="849-BP-u3a" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mSi-dY-MUx"/>
+                <constraint firstAttribute="trailing" secondItem="ZFN-Zh-ks3" secondAttribute="trailing" constant="-16" id="1oe-Ry-V9q"/>
+                <constraint firstAttribute="bottom" secondItem="ZFN-Zh-ks3" secondAttribute="bottom" id="4xC-rS-7Dn"/>
+                <constraint firstItem="ZFN-Zh-ks3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="KGW-LT-JQ4"/>
+                <constraint firstItem="ZFN-Zh-ks3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="-16" id="q02-FD-epH"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -43,6 +27,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Screen Shot 2015-01-07 at 3.08.18 PM.png" width="374" height="626"/>
+        <image name="splash.png" width="375" height="667"/>
     </resources>
 </document>

@@ -27,7 +27,11 @@ class DetailTweetViewController: UIViewController, UITableViewDataSource, UITabl
    @IBOutlet weak var userPhotoButton: UIButton!
    @IBOutlet weak var tweetTextLabel: UILabel!
    @IBOutlet weak var bannerImage: UIImageView!
-   
+    
+    @IBOutlet weak var userNameLabel: UILabel!
+    
+    @IBOutlet weak var screenNameLabel: UILabel!
+    
    var networkController : NetworkController!
    var tweet: Tweet!
    
@@ -37,13 +41,10 @@ class DetailTweetViewController: UIViewController, UITableViewDataSource, UITabl
       self.title = self.tweet.username
       self.tableView.dataSource = self
       self.tableView.delegate = self
-      
+    
       self.bannerImage.layer.masksToBounds = true
       networkController.fetchTweetDetail(self.tweet.tweetID, completionHandler: { (jsonDict, stringerror) -> () in
-         // println(jsonDict!)
-         if let screenName = jsonDict!["screen_name"] as? String {
-            self.tweet.screenName = screenName
-         }
+
          
          if let createdAt = jsonDict!["created_at"] as? String {
             self.tweet.createdAt = createdAt
@@ -52,14 +53,15 @@ class DetailTweetViewController: UIViewController, UITableViewDataSource, UITabl
          if let favorites = jsonDict!["favorite_count"] as? Int {
             self.tweet.favorites = favorites
          }
-         
-         
-         
+        
+        
+        
          self.userPhotoButton.layer.cornerRadius = 35.0
          self.userPhotoButton.layer.masksToBounds = true
          self.userPhotoButton.layer.borderColor = UIColor.blackColor().CGColor
          self.userPhotoButton.layer.borderWidth = 5.0
          self.userPhotoButton.setBackgroundImage(self.tweet.userPhotoId!, forState: UIControlState.Normal)
+        
          
          
          
@@ -70,7 +72,18 @@ class DetailTweetViewController: UIViewController, UITableViewDataSource, UITabl
          
          
       }) // end network.fetchTweetDatail
-      
+    
+    self.userNameLabel.text = self.tweet.username
+    self.screenNameLabel.text = "@\(self.tweet.screenName)"
+    
+    if let backgroundURl = self.tweet.userBackgroundPhotoUrl{
+        self.networkController.fetchImageFromURL(&self.tweet.userBackgroundPhoto, photoURL: backgroundURl)
+    }
+    
+    if let backgroundPhoto = self.tweet.userBackgroundPhoto {
+        self.bannerImage.image = backgroundPhoto
+    }
+
       
       
    } // end view  did load
@@ -95,7 +108,10 @@ class DetailTweetViewController: UIViewController, UITableViewDataSource, UITabl
    
    @IBAction func userPhotoButton(sender: AnyObject) {
       let userTimelineVC = self.storyboard?.instantiateViewControllerWithIdentifier("USER_TIMELINE") as UserTimelineViewController
-      //      userTimelineVC.networkController = self.networkController
+//      let ogVC = self.storyboard?.instantiateViewControllerWithIdentifier("OG") as ViewController
+            userTimelineVC.networkController = self.networkController
+    userTimelineVC.userTweet = self.tweet
+//    userTimelineVC.networkController = ogVC.networkController
       self.navigationController?.pushViewController(userTimelineVC, animated: true)
    }
    

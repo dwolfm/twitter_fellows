@@ -12,9 +12,11 @@ class UserTimelineViewController: UIViewController, UITableViewDataSource, UITab
    // outlets
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var headerTest: UILabel!
+    @IBOutlet weak var bannerImage: UIImageView!
    
-   let networkController : NetworkController?
-   let tweets: [Tweet] = []
+   var networkController : NetworkController?
+    var userTweet: Tweet?
+    var tweets: [Tweet] = []
    
    
 
@@ -26,7 +28,34 @@ class UserTimelineViewController: UIViewController, UITableViewDataSource, UITab
         self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.headerTest.text = "DSFL:JFD"
+//        self.headerTest.text = "DSFL:JFD"
+        
+        if let screenName = userTweet?.screenName {
+            println(screenName)
+        }
+        
+        self.networkController?.fetchUserTimeline(self.userTweet!.screenName, completionHandler: { (tweets, errorString) -> () in
+            if errorString == nil {
+                self.tweets = tweets! as [Tweet]
+                self.tableView.reloadData()
+            } else {
+                let alert = UIAlertView()
+                alert.message = errorString!
+                alert.show()
+                
+            }
+            println(tweets)
+        })
+        
+        if let backgroundURl = self.userTweet!.userBackgroundPhotoUrl{
+            self.networkController!.fetchImageFromURL(&self.userTweet!.userBackgroundPhoto, photoURL: backgroundURl)
+        }
+        
+        if let backgroundPhoto = self.userTweet!.userBackgroundPhoto {
+            self.bannerImage.image = backgroundPhoto
+        }
+
+        self.bannerImage.layer.masksToBounds = true
         
         // Do any additional setup after loading the view.
     }
@@ -37,14 +66,30 @@ class UserTimelineViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return tweets.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL") as TweetCell
+        let tweet = tweets[indexPath.row]
+        cell.usernameLabel.text = tweet.username
+        cell.tweetTextLabel.text = tweet.text
+        cell.tweetTextLabel.layer.cornerRadius = 5
+        cell.tweetTextLabel.layer.masksToBounds = true
+        
+        self.networkController?.fetchImageFromURL(&tweet.userPhotoId, photoURL: tweet.userPhotoUrl!)
+
+        cell.userPhotoId?.image = tweet.userPhotoId
+        cell.userPhotoId?.layer.cornerRadius = 35.0
+        cell.userPhotoId?.layer.masksToBounds = true
+        cell.userPhotoId?.layer.borderColor = UIColor.blackColor().CGColor
+        cell.userPhotoId?.layer.borderWidth = 4.0
+
         return cell
         
     }
+    
+    
     
     /*
     // MARK: - Navigation
